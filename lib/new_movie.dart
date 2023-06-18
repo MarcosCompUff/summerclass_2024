@@ -15,7 +15,6 @@ class NewMoviePage extends StatefulWidget {
 }
 
 class _NewMoviePageState extends State<NewMoviePage> {
-  bool liked = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final db = FirebaseFirestore.instance;
@@ -48,9 +47,10 @@ class _NewMoviePageState extends State<NewMoviePage> {
                 hintText: 'Título',
               ),
               onSaved: (String? value) {
-                titulo = value;
                 if (value == null || value.isEmpty) {
                   titulo = "Título pendente";
+                } else {
+                  titulo = value;
                 }
               },
             ),
@@ -59,9 +59,10 @@ class _NewMoviePageState extends State<NewMoviePage> {
                 hintText: 'Diretor',
               ),
               onSaved: (String? value) {
-                diretor = value;
                 if (value == null || value.isEmpty) {
                   diretor = "Diretor pendente";
+                } else {
+                  diretor = value;
                 }
               },
             ),
@@ -70,9 +71,10 @@ class _NewMoviePageState extends State<NewMoviePage> {
                 hintText: 'Sinopse',
               ),
               onSaved: (String? value) {
-                sinopse = value!;
                 if (value == null || value.isEmpty) {
                   sinopse = "Sinopse pendente";
+                } else {
+                  sinopse = value;
                 }
               },
             ),
@@ -81,30 +83,30 @@ class _NewMoviePageState extends State<NewMoviePage> {
               child: InkWell (
                 onTap: imagePicker,
                 child: imageBytes != null
-                    ? Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    image: DecorationImage(
-                      image: MemoryImage(imageBytes!),
-                      fit: BoxFit.cover,
+                  ? Container(
+                      decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      image: DecorationImage(
+                        image: MemoryImage(imageBytes!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    width: 100,
+                    height: 100,
+                  )
+                  : Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                      child: const Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey,
+                      size: 80,
                     ),
                   ),
-                  width: 100,
-                  height: 100,
-                )
-                    : Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey,
-                    size: 80,
-                  ),
-                ),
               )
             ),
             Padding(
@@ -159,6 +161,7 @@ class _NewMoviePageState extends State<NewMoviePage> {
       "titulo": titulo,
       "diretor": diretor,
       "sinopse": sinopse,
+      "image": fileName,
       "liked": false,
     };
 

@@ -57,11 +57,12 @@ class _DetailsPageState extends State<DetailsPage> {
                   fontSize: 22),),
               Row (
                 children: [
-                  // IconButton(
-                  //   onPressed: _.onPressedUpdateButton,
-                  //   icon: const Icon(Icons.add_box_rounded),
-                  //   color: Colors.red,
-                  // ),
+                  IconButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, '/update', arguments: movie),
+                    icon: const Icon(Icons.add_box_rounded),
+                    color: Colors.red,
+                  ),
                   IconButton(
                     onPressed: () async {
                       ScaffoldMessenger.of(context).showSnackBar(

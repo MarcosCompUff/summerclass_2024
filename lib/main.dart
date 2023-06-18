@@ -3,6 +3,7 @@ import 'package:summerclass_2024/details_page.dart';
 import 'package:summerclass_2024/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:summerclass_2024/new_movie.dart';
+import 'package:summerclass_2024/update_movie.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/details': (context) => const DetailsPage(),
         '/new': (context) => const NewMoviePage(),
+        '/update': (context) => const UpdateMoviePage(),
       },
     );
   }

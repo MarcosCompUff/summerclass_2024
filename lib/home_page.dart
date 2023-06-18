@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
           movie["diretor"] = docSnapshot.data()["diretor"];
           movie["sinopse"] = docSnapshot.data()["sinopse"];
           movie["liked"] = docSnapshot.data()["liked"];
-          movie["image"] = await storage.ref().child(docSnapshot.id).getData();
+          movie["image"] = await storage.ref().child(docSnapshot.data()["image"]).getData();
           moviesList.add(movie);
         }
       }, onError: (e) {
