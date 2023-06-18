@@ -48,9 +48,7 @@ class _UpdateMoviePageState extends State<UpdateMoviePage> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Diretor',
-                ),
+                initialValue: diretor,
                 onSaved: (String? value) {
                   if (value == null || value.isEmpty) {
                     diretor = "Diretor pendente";
@@ -60,9 +58,7 @@ class _UpdateMoviePageState extends State<UpdateMoviePage> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Sinopse',
-                ),
+                initialValue: sinopse,
                 onSaved: (String? value) {
                   if (value == null || value.isEmpty) {
                     sinopse = "Sinopse pendente";
