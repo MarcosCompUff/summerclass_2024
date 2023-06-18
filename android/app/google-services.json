@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "50814333704",
+    "project_id": "summerclass-88f0d",
+    "storage_bucket": "summerclass-88f0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50814333704:android:049f522098eed1fa19f2bd",
+        "android_client_info": {
+          "package_name": "com.example.summerclass_2024"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "50814333704-dnfh0uaqk8dv5hr2bofcfv6n9qch2ju3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5WroNRfeCTKCNbXmfeFvMzsNEu7Aha2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "50814333704-dnfh0uaqk8dv5hr2bofcfv6n9qch2ju3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
