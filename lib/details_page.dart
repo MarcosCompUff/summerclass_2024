@@ -51,10 +51,12 @@ class _DetailsPageState extends State<DetailsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(movie["titulo"], style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22),),
+              Expanded(
+                child: Text(movie["titulo"], style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),),
+              ),
               Row (
                 children: [
                   IconButton(
