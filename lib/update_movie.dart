@@ -95,7 +95,7 @@ class _UpdateMoviePageState extends State<UpdateMoviePage> {
                           const SnackBar(content: Text('Salvando...')));
                       _formKey.currentState!.save();
                       await updateMovie(fileName, titulo, diretor, sinopse, imagePath);
-                      Navigator.pushReplacementNamed(context, '/');
+                      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                     }
                   },
                   child: const Text('Salvar'),

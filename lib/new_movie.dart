@@ -120,7 +120,7 @@ class _NewMoviePageState extends State<NewMoviePage> {
                         const SnackBar(content: Text('Salvando...')));
                     _formKey.currentState!.save();
                     await postMovie(titulo!, diretor!, sinopse!, imagePath!);
-                    Navigator.pushReplacementNamed(context, '/');
+                    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                   }
                 },
                 child: const Text('Salvar'),

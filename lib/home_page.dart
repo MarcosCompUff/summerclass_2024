@@ -127,9 +127,7 @@ class _HomePageState extends State<HomePage> {
     if (index == moviesList.length){
       Navigator.pushNamed(context, '/new');
     } else {
-      Navigator.pushNamed(
-          context, '/details',
-          arguments: moviesList[index]);
+      Navigator.pushNamed(context, '/details', arguments: moviesList[index]);
     }
   }
 }

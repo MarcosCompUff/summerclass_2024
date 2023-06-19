@@ -70,7 +70,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Deletando...")));
                       await _onPressedDeleteButton(movie);
-                      Navigator.pushReplacementNamed(context, '/');
+                      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                     },
                     icon: const Icon(Icons.delete),
                     color: Colors.red,
