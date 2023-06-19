@@ -134,9 +134,13 @@ class _NewMoviePageState extends State<NewMoviePage> {
   }
 
   Future<void> loadAssetImage() async {
-    final directory = await getTemporaryDirectory();
-    final imagePath = '${directory.path}/claquete.png';
-    this.imagePath = File(imagePath);
+    final tempDir = await getTemporaryDirectory();
+    final tempPath = '${tempDir.path}/claquete.png';
+    ByteData assetData = await rootBundle.load('assets/claquete.png');
+    File(tempPath).writeAsBytesSync(assetData.buffer.asUint8List());
+    // File tempFile = File(tempPath);
+    imagePath = File(tempPath);
+    debugPrint(imagePath!.path);
   }
 
   imagePicker() async {
