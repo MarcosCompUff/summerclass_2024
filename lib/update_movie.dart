@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 class UpdateMoviePage extends StatefulWidget {
   const UpdateMoviePage({super.key});
@@ -27,6 +26,7 @@ class _UpdateMoviePageState extends State<UpdateMoviePage> {
     String titulo = movie["titulo"];
     String diretor = movie["diretor"];
     String sinopse = movie["sinopse"];
+    bool liked = movie["liked"];
     File? imagePath = movie["imagePath"];
     Uint8List imageBytes = movie["image"];
 
@@ -94,7 +94,7 @@ class _UpdateMoviePageState extends State<UpdateMoviePage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Salvando...')));
                       _formKey.currentState!.save();
-                      await updateMovie(fileName, titulo, diretor, sinopse, imagePath);
+                      await updateMovie(fileName, titulo, diretor, sinopse, liked, imagePath);
                       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                     }
                   },
@@ -126,7 +126,7 @@ class _UpdateMoviePageState extends State<UpdateMoviePage> {
     }
   }
 
-  updateMovie(String fileName, String titulo, String diretor, String sinopse, File? imagePath) async {
+  updateMovie(String fileName, String titulo, String diretor, String sinopse, bool liked, File? imagePath) async {
     final ref = storage.ref().child(fileName); // criando referência
     if (imagePath != null) {
       await ref.putFile(imagePath); // salvando imagem
@@ -136,8 +136,8 @@ class _UpdateMoviePageState extends State<UpdateMoviePage> {
       "titulo": titulo,
       "diretor": diretor,
       "sinopse": sinopse,
+      "liked": liked,
       "image": fileName,
-      "liked": false,
     };
 
     await db.collection("movies").doc(fileName).set(movie); // salvando filme
