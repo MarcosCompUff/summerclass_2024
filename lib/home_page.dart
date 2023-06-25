@@ -1,9 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:summerclass_2024/login_page.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   bool isLoading = true;
   List<Map<String, dynamic>> moviesList = [];
@@ -25,37 +25,37 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     super.initState();
+    if (auth.currentUser == null) {
+      Navigator.pushNamedAndRemoveUntil(context, '/login',(route) => false);
+    }
     reloadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic>? arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-    User? user = arguments?["credential"].user;
-
-    // if (user == null) {
-    //   Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-    //   return Text("");
-    // }
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    // Map<String, dynamic>? arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    // User? user = arguments?["credential"].user;
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text('Filmes nacionais'),
         centerTitle: true,
         actions: [
           IconButton(onPressed: reloadData, icon: const Icon(Icons.refresh)),
-          // TODO: criar dropdown de login / logout
-          IconButton(onPressed: (){
-            if (user != null) {
-              debugPrint('user\n$user');
-            } else {
-              Navigator.pushNamedAndRemoveUntil(context, '/login',(route) => false);
-            }
-          }, icon: const Icon(Icons.account_circle_outlined))
         ],
+        leading: InkWell(
+          onTap: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
+          child: CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(auth.currentUser!.photoURL!),
+          ),
+        ),
       ),
-      body: user == null
+      body: auth.currentUser == null
         ? const Center(
             child: Text("Você precisa estar logado para continuar",
             style: TextStyle(color: Colors.white,),),
@@ -68,6 +68,27 @@ class _HomePageState extends State<HomePage> {
             images: images,
             onSelectedItem: onSelectedItem,
           ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              ListTile(
+                title: Text('Login'),
+                onTap: () {
+                  debugPrint('Login');
+                },
+              ),
+              ListTile(
+                title: Text('Testar'),
+                onTap: () {
+                  debugPrint('Testando');
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

@@ -14,38 +14,40 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
-  final firebaseAuth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    firebaseAuth.authStateChanges().listen((User? user) {
+    auth.authStateChanges().listen((User? user) {
       if (user == null) {
-        debugPrint('Desconectado\n${firebaseAuth.currentUser}');
+        debugPrint('Desconectado\n${auth.currentUser}');
       } else {
-        debugPrint('Conectado\n${firebaseAuth.currentUser}');
+        debugPrint('auth\n${auth.toString()}');
       }
     });
 
     return Scaffold(
         appBar: AppBar(title: const Text("Login Page")),
-        body: ElevatedButton(onPressed: () async {
-          var credential = await signInWithGoogle();
-          if (credential != null) {
-            debugPrint('credential\n${credential?.user}');
-            debugPrint('firebaseAuth\n$firebaseAuth');
-            Navigator.pushNamedAndRemoveUntil(context, '/', arguments: {"credential": credential, "firebaseAuth": firebaseAuth}, (route) => false);
-          } else {
-            debugPrint('Desconectado');
-          }
-        }, child: Text("Login")),
+        body: Center(
+          child: ElevatedButton(onPressed: () async {
+            var credential = await signInWithGoogle();
+            if (credential != null) {
+              debugPrint('credential\n${credential.user}');
+              debugPrint('auth\n$auth');
+              Navigator.pushNamedAndRemoveUntil(context, '/', arguments: {"credential": credential, "auth": auth}, (route) => false);
+            } else {
+              debugPrint('Desconectado');
+            }
+          }, child: Text("Login")),
+        ),
     );
   }
 
   Future<UserCredential?> signInWithGoogle() async {
     UserCredential? userCredential;
-    if (firebaseAuth.currentUser != null) {
+    if (auth.currentUser != null) {
       try {
-        await firebaseAuth.signOut();
+        await auth.signOut();
       } catch(e) {
         debugPrint("ERRO deslogando:\n$e");
       }
@@ -61,9 +63,12 @@ class _LoginPageState extends State<LoginPage> {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-
-      userCredential = await firebaseAuth.signInWithCredential(credential);
+      debugPrint('googleUsern${googleUser.toString()}');
+      debugPrint('googleAuth\n${googleAuth.toString()}');
+      userCredential = await auth.signInWithCredential(credential);
     }
+    debugPrint('userCredential\n${userCredential.toString()}');
+    debugPrint('auth\n${auth.toString()}');
 
     return userCredential;
   }
