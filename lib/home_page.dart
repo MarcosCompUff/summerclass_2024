@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
+  final firebaseAuth = FirebaseAuth.instance;
 
   bool isLoading = true;
   List<Map<String, dynamic>> moviesList = [];
@@ -26,12 +27,15 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     super.initState();
+    if (firebaseAuth.isNull) {
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    }
     reloadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    firebaseAuth.authStateChanges().listen((User? user) {
       if (user == null) {
         debugPrint('==============================\nDesconectado\n==============================');
       } else {
@@ -143,10 +147,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<UserCredential?> signInWithGoogle() async {
-    UserCredential? auth;
-    if (FirebaseAuth.instance.currentUser != null) {
+    UserCredential? userCredential;
+    if (firebaseAuth.currentUser != null) {
       try {
-        await FirebaseAuth.instance.signOut();
+        await firebaseAuth.signOut();
       } catch(e) {
         debugPrint("ERRO deslogando:\n$e");
       }
@@ -163,8 +167,8 @@ class _HomePageState extends State<HomePage> {
         idToken: googleAuth?.idToken,
       );
 
-      auth = await FirebaseAuth.instance.signInWithCredential(credential);
+      userCredential = await firebaseAuth.signInWithCredential(credential);
     }
-    return auth;
+    return userCredential;
   }
 }

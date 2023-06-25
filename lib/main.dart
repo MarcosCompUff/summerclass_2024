@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:summerclass_2024/details_page.dart';
 import 'package:summerclass_2024/home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:summerclass_2024/login_page.dart';
 import 'package:summerclass_2024/new_movie.dart';
 import 'package:summerclass_2024/update_movie.dart';
 import 'firebase_options.dart';
@@ -25,8 +26,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(), // rota '/'
+      home: const LoginPage(), // rota '/'
       routes: {
+        '/login': (context) => const LoginPage(),
         '/details': (context) => const DetailsPage(),
         '/new': (context) => const NewMoviePage(),
         '/update': (context) => const UpdateMoviePage(),
