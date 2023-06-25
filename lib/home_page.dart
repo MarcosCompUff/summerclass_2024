@@ -1,10 +1,9 @@
-import 'dart:js_interop';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:summerclass_2024/login_page.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
-  final firebaseAuth = FirebaseAuth.instance;
 
   bool isLoading = true;
   List<Map<String, dynamic>> moviesList = [];
@@ -27,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     super.initState();
-    if (firebaseAuth.isNull) {
+    if (firebaseAuth.currentUser == null) {
       Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     }
     reloadData();
@@ -35,14 +33,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    firebaseAuth.authStateChanges().listen((User? user) {
-      if (user == null) {
-        debugPrint('==============================\nDesconectado\n==============================');
-      } else {
-        debugPrint('==============================\nConectado\n==============================');
-      }
-    });
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -50,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(onPressed: reloadData, icon: const Icon(Icons.refresh)),
-          IconButton(onPressed: signInWithGoogle, icon: const Icon(Icons.account_circle_outlined))
+          IconButton(onPressed: LoginPage.signInWithGoogle, icon: const Icon(Icons.account_circle_outlined))
         ],
       ),
       body: isLoading
@@ -144,31 +134,5 @@ class _HomePageState extends State<HomePage> {
     } else {
       Navigator.pushNamed(context, '/details', arguments: moviesList[index]);
     }
-  }
-
-  Future<UserCredential?> signInWithGoogle() async {
-    UserCredential? userCredential;
-    if (firebaseAuth.currentUser != null) {
-      try {
-        await firebaseAuth.signOut();
-      } catch(e) {
-        debugPrint("ERRO deslogando:\n$e");
-      }
-    } else {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signOut();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      userCredential = await firebaseAuth.signInWithCredential(credential);
-    }
-    return userCredential;
   }
 }
