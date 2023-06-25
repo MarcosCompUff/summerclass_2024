@@ -41,6 +41,8 @@ dependencies:
   vertical_card_pager: ^1.5.0
   image_picker: ^0.8.9
   path_provider: ^2.0.15
+  google_sign_in: ^6.1.4
+  firebase_auth: ^4.6.3
 
 dev_dependencies:
   flutter_test:
