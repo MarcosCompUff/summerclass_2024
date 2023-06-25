@@ -20,15 +20,24 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     firebaseAuth.authStateChanges().listen((User? user) {
       if (user == null) {
-        debugPrint('==============================\nDesconectado\n${firebaseAuth.currentUser}\n==============================');
+        debugPrint('Desconectado\n${firebaseAuth.currentUser}');
       } else {
-        debugPrint('==============================\nConectado\n${firebaseAuth.currentUser}\n==============================');
+        debugPrint('Conectado\n${firebaseAuth.currentUser}');
       }
     });
 
     return Scaffold(
         appBar: AppBar(title: const Text("Login Page")),
-        body: ElevatedButton(onPressed: signInWithGoogle, child: Text("Login")),
+        body: ElevatedButton(onPressed: () async {
+          var credential = await signInWithGoogle();
+          if (credential != null) {
+            debugPrint('credential\n${credential?.user}');
+            debugPrint('firebaseAuth\n$firebaseAuth');
+            Navigator.pushNamedAndRemoveUntil(context, '/', arguments: {"credential": credential, "firebaseAuth": firebaseAuth}, (route) => false);
+          } else {
+            debugPrint('Desconectado');
+          }
+        }, child: Text("Login")),
     );
   }
 
@@ -55,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
 
       userCredential = await firebaseAuth.signInWithCredential(credential);
     }
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+
     return userCredential;
   }
 }

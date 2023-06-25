@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(), // rota '/'
+      home: const HomePage(), // rota '/'
       routes: {
         '/login': (context) => const LoginPage(),
         '/details': (context) => const DetailsPage(),

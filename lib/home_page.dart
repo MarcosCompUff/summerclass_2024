@@ -25,14 +25,19 @@ class _HomePageState extends State<HomePage> {
   @override
   initState() {
     super.initState();
-    if (firebaseAuth.currentUser == null) {
-      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-    }
     reloadData();
   }
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic>? arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+    User? user = arguments?["credential"].user;
+
+    // if (user == null) {
+    //   Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+    //   return Text("");
+    // }
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -40,17 +45,29 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(onPressed: reloadData, icon: const Icon(Icons.refresh)),
-          IconButton(onPressed: LoginPage.signInWithGoogle, icon: const Icon(Icons.account_circle_outlined))
+          // TODO: criar dropdown de login / logout
+          IconButton(onPressed: (){
+            if (user != null) {
+              debugPrint('user\n$user');
+            } else {
+              Navigator.pushNamedAndRemoveUntil(context, '/login',(route) => false);
+            }
+          }, icon: const Icon(Icons.account_circle_outlined))
         ],
       ),
-      body: isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : VerticalCardPager(
-          initialPage: 1,
-          titles: titles,
-          images: images,
-          onSelectedItem: onSelectedItem,
-        ),
+      body: user == null
+        ? const Center(
+            child: Text("Você precisa estar logado para continuar",
+            style: TextStyle(color: Colors.white,),),
+        )
+        : isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : VerticalCardPager(
+            initialPage: 1,
+            titles: titles,
+            images: images,
+            onSelectedItem: onSelectedItem,
+          ),
     );
   }
 
