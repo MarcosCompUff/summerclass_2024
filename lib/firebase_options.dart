@@ -50,20 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD5WroNRfeCTKCNbXmfeFvMzsNEu7Aha2Q',
-    appId: '1:50814333704:android:049f522098eed1fa19f2bd',
-    messagingSenderId: '50814333704',
-    projectId: 'summerclass-88f0d',
-    storageBucket: 'summerclass-88f0d.appspot.com',
+    apiKey: 'AIzaSyB_byCCNW4uO4QJTf-KHc467qrp_61IWT0',
+    appId: '1:570612700152:android:c8a851ed16da87bf8e7c0d',
+    messagingSenderId: '570612700152',
+    projectId: 'summerclass-3c1db',
+    storageBucket: 'summerclass-3c1db.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBZfbBt5EINjlPCzJ96O2NYmqA6Mpb29Hw',
-    appId: '1:50814333704:ios:42bfedeebcfc0d3f19f2bd',
-    messagingSenderId: '50814333704',
-    projectId: 'summerclass-88f0d',
-    storageBucket: 'summerclass-88f0d.appspot.com',
-    iosClientId: '50814333704-b36sl4svgo87u3p6saacodo4bh1nc9ms.apps.googleusercontent.com',
+    apiKey: 'AIzaSyApVOUzySZQlzLwqU6ZGwvA4SCI8ymjkCE',
+    appId: '1:570612700152:ios:d1177acc198dcefc8e7c0d',
+    messagingSenderId: '570612700152',
+    projectId: 'summerclass-3c1db',
+    storageBucket: 'summerclass-3c1db.appspot.com',
+    androidClientId: '570612700152-d1oulh6nbk9j85u5lmdr9tueqgg8mm4e.apps.googleusercontent.com',
+    iosClientId: '570612700152-b2gaaqm3g8ppvdkomgod56ngfbc397u5.apps.googleusercontent.com',
     iosBundleId: 'com.example.summerclass2024',
   );
 }
